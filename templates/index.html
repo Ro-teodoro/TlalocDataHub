@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TLALOC · Datos climatológicos</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <aside class="panel">
+    <header>
+      <div class="brand-mark">T</div>
+      <div>
+        <p class="eyebrow">CONAGUA · SMN</p>
+        <h1>TLALOC Data Hub</h1>
+      </div>
+    </header>
+
+    <div class="search">
+      <input id="search-input" type="search" placeholder="Buscar por clave, nombre o municipio">
+    </div>
+    <div class="filters">
+      <select id="state-filter"><option value="">Todos los estados</option></select>
+      <select id="situation-filter">
+        <option value="">Todas las situaciones</option>
+        <option value="OPERANDO">Operando</option>
+        <option value="SUSPENDIDA">Suspendida</option>
+      </select>
+    </div>
+
+    <div id="station-count" class="count">Cargando estaciones…</div>
+
+    <section id="station-detail" class="detail hidden">
+      <div class="detail-heading">
+        <div>
+          <p id="detail-key" class="eyebrow"></p>
+          <h2 id="detail-name"></h2>
+        </div>
+        <button id="close-detail" aria-label="Cerrar">×</button>
+      </div>
+      <div id="detail-meta" class="metadata"></div>
+      <div class="actions">
+        <div class="download-options">
+          <select id="variable-select" aria-label="Variable a descargar">
+            <option value="precip">Precipitación</option>
+            <option value="evap">Evaporación</option>
+            <option value="tmax">Temperatura máxima</option>
+            <option value="tmin">Temperatura mínima</option>
+          </select>
+          <select id="mode-select" aria-label="Modo de descarga">
+            <option value="raw">Datos crudos</option>
+            <option value="complemented">Datos complementados</option>
+          </select>
+          <select id="format-select" aria-label="Formato">
+            <option value="csv">CSV</option>
+            <option value="txt">TXT</option>
+          </select>
+        </div>
+        <button id="download-button" class="primary">Descargar variable</button>
+      </div>
+      <section class="statistics">
+        <div class="preview-heading">
+          <h3>Estadísticas básicas</h3>
+          <span id="statistics-period"></span>
+        </div>
+        <div id="statistics-grid" class="statistics-grid"></div>
+      </section>
+      <div class="preview-heading">
+        <h3>Últimos registros</h3>
+        <span id="record-count"></span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Fecha</th><th>Precip.</th><th>Evap.</th><th>T máx.</th><th>T mín.</th></tr></thead>
+          <tbody id="preview-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </aside>
+
+  <main id="map" aria-label="Mapa de estaciones climatológicas"></main>
+
+  <div id="download-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="download-modal-title">
+    <div class="modal-card">
+      <div class="detail-heading">
+        <div>
+          <p class="eyebrow">Resumen de descarga</p>
+          <h2 id="download-modal-title">Preparando datos</h2>
+        </div>
+        <button id="close-download-modal" aria-label="Cerrar">×</button>
+      </div>
+      <div id="modal-method-section" class="modal-method-section hidden">
+        <label for="method-select">Método de complementación</label>
+        <select id="method-select" aria-label="Método de complementación">
+          <option value="auto">Sugerido automáticamente</option>
+          <option value="serie_tiempo">Serie de tiempo</option>
+          <option value="estaciones_cercanas">Estaciones cercanas</option>
+          <option value="promedio_estacional">Promedio estacional</option>
+          <option value="interpolacion">Interpolación temporal</option>
+        </select>
+        <p id="method-recommendation" class="method-recommendation"></p>
+      </div>
+      <div id="download-summary" class="download-summary">
+        Cargando resumen…
+      </div>
+      <div class="modal-actions">
+        <button id="modal-download-data" class="primary">Descargar datos</button>
+        <button id="modal-download-report" class="secondary">Descargar reporte TXT</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>
